@@ -1,9 +1,11 @@
 package pl.marwar.shop.payments;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
+@Component
 @RequiredArgsConstructor
 public class FakePaymentService implements PaymentService {
 
