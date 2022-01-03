@@ -2,7 +2,7 @@ package pl.marwar.shop.payments;
 
 import lombok.Setter;
 
-//@Component
+@IdGenerator("incremental")
 public class IncrementalPaymentIdGenerator implements PaymentIdGenerator {
 
     private static final String ID_FORMAT = "%010d";

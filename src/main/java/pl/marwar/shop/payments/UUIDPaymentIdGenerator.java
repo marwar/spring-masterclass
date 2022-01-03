@@ -1,12 +1,11 @@
 package pl.marwar.shop.payments;
 
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
-@Component
+@IdGenerator("uuid")
 public class UUIDPaymentIdGenerator implements PaymentIdGenerator {
-    @Override public String getNext() {
+    @Override
+    public String getNext() {
         return UUID.randomUUID().toString();
     }
 }

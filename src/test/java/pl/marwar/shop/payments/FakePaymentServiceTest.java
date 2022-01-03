@@ -10,6 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,12 +23,15 @@ public class FakePaymentServiceTest {
 
     @Mock
     private PaymentIdGenerator paymentIdGenerator;
+    @Mock
+    private PaymentRepository paymentRepository;
     private Payment payment;
 
     @BeforeEach
     void setUp() {
         when(paymentIdGenerator.getNext()).thenReturn(PAYMENT_ID);
-        FakePaymentService fakePaymentService = new FakePaymentService(paymentIdGenerator);
+        when(paymentRepository.save(any(Payment.class))).then(returnsFirstArg());
+        FakePaymentService fakePaymentService = new FakePaymentService(paymentIdGenerator, paymentRepository);
         payment = fakePaymentService.process(PAYMENT_REQUEST);
     }
 
@@ -51,5 +57,11 @@ public class FakePaymentServiceTest {
     @Test
     void testAssignStartedStatusToCratedPayment() {
         assertEquals(PaymentStatus.STARTED, payment.getStatus());
+    }
+
+    @DisplayName("Should save created payment")
+    @Test
+    void testSaveCreatedPayment() {
+        verify(paymentRepository).save(payment);
     }
 }
