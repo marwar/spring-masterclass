@@ -1,5 +1,6 @@
 package pl.marwar.shop.payments;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -27,7 +28,6 @@ public class FakePaymentService implements PaymentService {
     }
 
     @LogPayments
-    @Override
     public Payment process(PaymentRequest paymentRequest) {
         var payment = Payment.builder()
                 .id(paymentIdGenerator.getNext())
